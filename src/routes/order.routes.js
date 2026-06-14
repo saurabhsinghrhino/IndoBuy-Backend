@@ -13,7 +13,7 @@ router.post("/booking", authMiddleware.getProfile, orderController.createOrder);
 
 /**
  * GET - /api/orders/all-order
- * This is for Order Booking
+ * This is to get the all orders data
  */
 router.get(
   "/all-order",
@@ -23,7 +23,7 @@ router.get(
 
 /**
  * GET - /api/orders/details/:id
- * This is for Order Booking
+ * This is to get order's details 1 by 1
  */
 router.get(
   "/details/:id",
