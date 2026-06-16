@@ -36,6 +36,7 @@ const createOrder = async (req, res) => {
       message: `${user.username}, your order placed successfully 🚀`,
       data: order,
     });
+    
   } catch (error) {
     console.log(error);
 
