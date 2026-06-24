@@ -1,4 +1,5 @@
 const productModel = require("../models/product.model");
+const Cart = require("../models/cart.model");
 const ImageKit = require("imagekit");
 const imagekit = require("../Services/imagekit");
 
@@ -71,6 +72,77 @@ const getProductCheckUser = async (req, res) => {
     res.status(200).json({
       message: "All products fetched successfully",
       product: product,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * - Add to cart the product
+ * - POST /api/products/add-cart
+ */
+
+const addToCart = async (req, res) => {
+  const { productId, quantity } = req.body;
+
+  const userId = req.user.id;
+
+  let cart = await Cart.findOne({
+    user: userId,
+  });
+
+  if (!cart) {
+    cart = await Cart.create({
+      user: userId,
+      items: [],
+    });
+  }
+
+  const itemIndex = cart.items.findIndex(
+    (item) => item.product.toString() === productId,
+  );
+
+  if (itemIndex > -1) {
+    cart.items[itemIndex].quantity += quantity;
+  } else {
+    cart.items.push({
+      product: productId,
+      quantity,
+    });
+  }
+
+  await cart.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Added to cart",
+  });
+};
+
+/**
+ * - Get cart items or details
+ * - GET /api/products/cart
+ */
+
+const getCart = async (req, res) => {
+  try {
+    const cart = await Cart.findOne({
+      user: req.user.id,
+    }).populate("items.product");
+
+    if (!cart) {
+      return res.status(200).json({
+        success: true,
+        cart: [],
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      cart,
     });
   } catch (error) {
     res.status(400).json({
@@ -199,6 +271,8 @@ const deleteProductById = async (req, res) => {
 };
 
 module.exports = {
+  addToCart,
+  getCart,
   addProduct,
   getProductCheckUser,
   getProductById,

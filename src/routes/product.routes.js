@@ -6,7 +6,7 @@ const productController = require("../controllers/product.controller");
 const orderController = require("../controllers/order.controller");
 const upload = require("../config/multer");
 
-/* POST /api/product/add-product/*/
+/* POST /api/products/add-product/*/
 router.post(
   "/add-product",
   authMiddleware.getProfile,
@@ -14,6 +14,16 @@ router.post(
   upload.single("image"),
   productController.addProduct,
 );
+
+/* POST /api/products/add-cart/*/
+router.post(
+  "/add-cart",
+  authMiddleware.getProfile,
+  productController.addToCart,
+);
+
+/* GET /api/products/get-cart/*/
+router.get("/get-cart", authMiddleware.getProfile, productController.getCart);
 
 /* GET /api/products/get-product */
 router.get("/get-product", productController.getProductCheckUser);
