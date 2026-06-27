@@ -38,6 +38,7 @@ const userRegister = async (req, res) => {
         username: user.username,
         role: user.role,
         lastLogin: user.lastLogin,
+        token: token,
       },
     });
   } catch (error) {
@@ -59,7 +60,6 @@ const userLogin = async (req, res) => {
         email: email,
       })
       .populate("password");
-    console.log(user);
 
     // Check if user exists
     if (!user) {
