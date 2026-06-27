@@ -11,7 +11,7 @@ const paymentRoutes = require("./routes/payment.routes");
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://indo-buy.vercel.app/",
     credentials: true,
   }),
 );
