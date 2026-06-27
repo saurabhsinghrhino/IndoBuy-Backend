@@ -101,7 +101,6 @@ const userLogin = async (req, res) => {
     console.log(error);
     res.status(400).json({
       message: error.message,
-      response: "Kuch toh gadbad hai daya",
     });
   }
 };
