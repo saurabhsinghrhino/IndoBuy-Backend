@@ -59,9 +59,11 @@ const userLogin = async (req, res) => {
       .findOne({
         email: email,
       })
-      .populate("password");
-
+      .select("+password");
     // Check if user exists
+    console.log(req.body);
+    console.log(user.password);
+    console.log(password);
     if (!user) {
       return res.status(404).json({
         message: "User not found",
@@ -74,6 +76,10 @@ const userLogin = async (req, res) => {
         message: "Invalid credentials",
       });
     }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    console.log(isPasswordCorrect);
     // Generate token
     const token = jwt.sign(
       { id: user._id, role: user.role },
