@@ -14,7 +14,7 @@ const getProfile = async (req, res, next) => {
         message: "Unauthorized",
       });
     }
-    const decoded = await jwt.verify(token, process.env.JWT_TOKEN);
+    const decoded = await jwt.decode(token, process.env.JWT_TOKEN);
     console.log(decoded);
     req.user = decoded; // {id, role}
 

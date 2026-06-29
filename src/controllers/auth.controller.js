@@ -53,6 +53,7 @@ const userRegister = async (req, res) => {
  * - POST /api/auth/login
  */
 const userLogin = async (req, res) => {
+  console.log("Reached before response");
   try {
     const { email, password } = req.body;
     const user = await userModel
@@ -101,6 +102,8 @@ const userLogin = async (req, res) => {
         lastLogin: user.lastLogin,
       },
     });
+
+    console.log("Response sent");
   } catch (error) {
     console.log(error);
     res.status(400).json({
