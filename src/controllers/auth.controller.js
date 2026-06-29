@@ -77,8 +77,6 @@ const userLogin = async (req, res) => {
       });
     }
 
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
-
     console.log(isPasswordCorrect);
     // Generate token
     const token = jwt.sign(
