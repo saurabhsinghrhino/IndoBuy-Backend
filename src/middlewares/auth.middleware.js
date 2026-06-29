@@ -16,13 +16,13 @@ const getProfile = async (req, res, next) => {
     }
     const decoded = await jwt.verify(token, process.env.JWT_TOKEN);
     console.log(decoded);
-
     req.user = decoded; // {id, role}
 
     next();
   } catch (error) {
     res.status(400).json({
       message: error.message,
+      success: false,
     });
   }
 };
